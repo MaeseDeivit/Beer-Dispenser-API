@@ -1,0 +1,13 @@
+<!-- src/Usages/Infrasctucture/Persistence/Doctrine/Usage.dcm.xml -->
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+      <entity name="Usage" table="usages">
+          <id name="id" type="uuid" />
+          <field name="total_spent" type="float" nulleable='false'/>
+          <field name="opened_at" type="datetime" nulleable='false'/>
+          <field name="closed_at" type="datetime" nulleable='true'/>
+      </entity>
+</doctrine-mapping>
