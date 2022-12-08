@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dispensers\Domain\Exceptions;
 
 use App\Shared\Domain\DomainError;
+use Symfony\Component\HttpFoundation\Response;
 
 final class DispenserAlreadyExistsException extends DomainError
 {
@@ -22,4 +23,9 @@ final class DispenserAlreadyExistsException extends DomainError
     {
         return sprintf('The dispenser <%s> already exists', $this->value);
     }
+    public function errorStatusCode(): int
+    {
+        return Response::HTTP_CONFLICT;
+    }
+
 }

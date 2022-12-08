@@ -8,8 +8,10 @@ use App\Shared\Domain\Bus\Query\Query;
 use App\Shared\Domain\Bus\Query\QueryBus;
 use App\Shared\Domain\Bus\Query\Response;
 use App\Shared\Domain\Bus\Command\Command;
+use Symfony\Component\Validator\Validation;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints\Collection;
 use App\Shared\Infrastructure\Symfony\ErrorJsonResponse;
 use App\Shared\Infrastructure\Symfony\SuccessJsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,5 +54,17 @@ abstract class ApiController extends AbstractController
             ],
             ['Access-Control-Allow-Origin' => '*']
         );
+    }
+
+    public function requestValidation(array $input, Collection $constraint): ?array
+    {
+        $validationErrors = Validation::createValidator()->validate($input, $constraint);
+        if (!$validationErrors->count() > 0) return null;
+
+        $errors = [];
+        foreach ($validationErrors as $violation) {
+            $errors[str_replace(['[', ']'], ['', ''], $violation->getPropertyPath())] = $violation->getMessage();
+        }
+        return $errors;
     }
 }

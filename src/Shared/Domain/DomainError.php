@@ -16,4 +16,6 @@ abstract class DomainError extends DomainException
     abstract public function errorCode(): int;
 
     abstract protected function errorMessage(): string;
+
+    abstract protected function errorStatusCode(): int;
 }

@@ -21,15 +21,26 @@ final class ApiExceptionListener
     {
         $exception = $event->getThrowable();
 
-        $event->setResponse(
-            new JsonResponse(
+        try {
+            $event->setResponse(
+                new JsonResponse(
+                    [
+                        'errorCode'    => $this->exceptionCodeFor($exception),
+                        'errorMessage' => $exception->getMessage(),
+                    ],
+                    $this->exceptionStatusCodeFor($exception)
+                )
+            );
+        } catch (\Throwable $th) {
+            $event->setResponse(ErrorJsonResponse::create(
+                500,
                 [
-                    'errorCode'    => $this->exceptionCodeFor($exception),
-                    'errorMessage' => $exception->getMessage(),
+                    'errorCode' => 9999,
+                    'errorMessage' => $exception->getMessage()
                 ],
-                $this->exceptionHandler->statusCodeFor($exception::class)
-            )
-        );
+                ['Access-Control-Allow-Origin' => '*']
+            ));
+        }
     }
 
     private function exceptionCodeFor(Throwable $error): int
@@ -38,6 +49,14 @@ final class ApiExceptionListener
 
         return $error instanceof $domainErrorClass
             ? $error->errorCode()
+            : Utils::toSnakeCase(Utils::extractClassName($error));
+    }
+    private function exceptionStatusCodeFor(Throwable $error): int
+    {
+        $domainErrorClass = DomainError::class;
+
+        return $error instanceof $domainErrorClass
+            ? $error->errorStatusCode()
             : Utils::toSnakeCase(Utils::extractClassName($error));
     }
 }
