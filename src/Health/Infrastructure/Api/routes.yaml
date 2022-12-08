@@ -2,3 +2,14 @@ GetHealth:
     path: /
     controller: App\Health\Infrastructure\Api\HealthController
     methods: [GET]
+
+
+PostHealth:
+    path: /
+    controller: App\Health\Infrastructure\Api\HealthPostController
+    methods: [POST]
+
+PutHealth:
+    path: /
+    controller: App\Dispensers\Infrastructure\Api\DispenserPostController
+    methods: [Put]

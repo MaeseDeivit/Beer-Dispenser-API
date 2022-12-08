@@ -75,7 +75,7 @@ final class Utils
     public static function filesIn(string $path, $fileType): array
     {
         return filter(
-            static fn(string $possibleModule) => strstr($possibleModule, $fileType),
+            static fn (string $possibleModule) => strstr($possibleModule, $fileType),
             scandir($path)
         );
     }
@@ -85,5 +85,14 @@ final class Utils
         $reflect = new ReflectionClass($object);
 
         return $reflect->getShortName();
+    }
+
+    public static function iterableToArray(iterable $iterable): array
+    {
+        if (is_array($iterable)) {
+            return $iterable;
+        }
+
+        return iterator_to_array($iterable);
     }
 }

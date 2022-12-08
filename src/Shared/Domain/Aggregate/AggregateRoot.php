@@ -4,7 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Shared\Domain\Aggregate;
 
-use Steelter\Shared\Domain\Bus\Event\DomainEvent;
+use App\Shared\Domain\Bus\Event\DomainEvent;
+
 
 abstract class AggregateRoot
 {

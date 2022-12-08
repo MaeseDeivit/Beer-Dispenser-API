@@ -6,7 +6,7 @@ namespace App\Shared\Domain\Bus\Event;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use Steelter\Shared\Domain\ValueObject\Uuid;
+use App\Shared\Domain\ValueObject\Uuid;
 
 abstract class DomainEvent
 {

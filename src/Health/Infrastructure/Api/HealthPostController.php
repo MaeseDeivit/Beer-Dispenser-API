@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Dispensers\Application\Create\CreateDispenserCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HealthController extends AbstractController
+class HealthPostController extends AbstractController
 {
     public function __construct(
         private readonly CommandBus $commandBus,
