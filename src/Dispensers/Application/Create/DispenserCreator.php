@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Dispensers\Application\Create;
 
+use App\Shared\Domain\Uuid\DispenserId;
+use App\Shared\Domain\Bus\Event\EventBus;
 use App\Dispensers\Domain\Model\Dispenser;
 use App\Dispensers\Domain\Model\DispenserFlowVolume;
-use App\Shared\Domain\Bus\Event\EventBus;
+use App\Dispensers\Domain\Exceptions\DispenserAlreadyExistsException;
 use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
-use App\Shared\Domain\Uuid\DispenserId;
 
 final class DispenserCreator
 {
@@ -21,6 +22,10 @@ final class DispenserCreator
         DispenserId $id,
         DispenserFlowVolume $flowVolume
     ) {
+        if (!is_null($this->repository->search($id))) {
+            throw new DispenserAlreadyExistsException($id->value());
+        }
+
         $dispenser = Dispenser::create($id, $flowVolume);
 
         $this->repository->save($dispenser);

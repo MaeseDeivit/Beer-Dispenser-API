@@ -4,22 +4,21 @@ declare(strict_types = 1);
 
 namespace App\Shared\Domain\ValueObject;
 
-use Ramsey\Uuid\Uuid as RamseyUuid;
 use InvalidArgumentException;
+use Ramsey\Uuid\Uuid as RamseyUuid;
+use Stringable;
 
-class Uuid{
-    private $value;
 
-    public function __construct(string $value)
+class Uuid implements Stringable
+{
+    public function __construct(protected string $value)
     {
         $this->ensureIsValidUuid($value);
-
-        $this->value = $value;    
     }
 
     public static function random(): self
     {
-        return new self(RamseyUuid::uuid4()->toString());
+        return new static(RamseyUuid::uuid4()->toString());
     }
 
     public function value(): string
@@ -27,20 +26,20 @@ class Uuid{
         return $this->value;
     }
 
-    private function ensureIsValidUuid($id): void
-    {
-        if (!RamseyUuid::isValid($id)) {
-            throw new InvalidArgumentException(sprintf('<%s> does not allow the value <%s>.', static::class, $id));
-        }
-    }
-
     public function equals(Uuid $other): bool
     {
         return $this->value() === $other->value();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->value;
+        return $this->value();
+    }
+
+    private function ensureIsValidUuid(string $id): void
+    {
+        if (!RamseyUuid::isValid($id)) {
+            throw new InvalidArgumentException(sprintf('<%s> does not allow the value <%s>.', static::class, $id));
+        }
     }
 }

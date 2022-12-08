@@ -1,0 +1,4 @@
+dispensers_post:
+    path: /
+    controller: App\Dispensers\Infrastructure\Api\DispenserPostController
+    methods: [Post]

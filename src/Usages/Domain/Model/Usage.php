@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Usages\Domain\Model;
 
+use App\Shared\Domain\Aggregate\AggregateRoot;
 use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
-use App\Usages\Domain\Model\ValueObject\UsageClosedAt;
-use App\Usages\Domain\Model\ValueObject\UsageOpenedAt;
-use App\Usages\Domain\Model\ValueObject\UsageTotalSpent;
+use App\Usages\Domain\Model\UsageClosedAt;
+use App\Usages\Domain\Model\UsageOpenedAt;
+use App\Usages\Domain\Model\UsageTotalSpent;
 
-class Usage
+class Usage extends AggregateRoot
 {
     private $id;
     private $dispenserId;
