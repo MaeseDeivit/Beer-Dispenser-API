@@ -5,12 +5,13 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="App\Dispensers\Domain\Model\Dispenser" table="dispensers">
-        <id name="id" type="dispenser_id" column="id" length="36" />
+        <id name="id" type="guid" column="id" length="36" />
 
-        <embedded name="flow_volume" class="App\Dispensers\Domain\Model\ValueObject\DispenserFlowVolume" use-column-prefix="false" />
-        <embedded name="status" class="App\Dispensers\Domain\Model\ValueObject\DispenserStatus" use-column-prefix="false" />
-        <embedded name="created_on" class="App\Dispensers\Domain\Model\ValueObject\DispenserCreatedOn" use-column-prefix="false" />
-        <embedded name="updated_on" class="App\Dispensers\Domain\Model\ValueObject\DispenserUpdatedOn" use-column-prefix="false" />
+        <embedded name="flowVolume" class="App\Dispensers\Domain\Model\DispenserFlowVolume" use-column-prefix="false" />
+        <embedded name="status" class="App\Dispensers\Domain\Model\DispenserStatus" use-column-prefix="false" />
+        <field name="createdOn" type="datetime" column="created_on"/>
+        <field name="updatedOn" type="datetime" column="updated_on" nullable="true"/>
     </entity>
 
 </doctrine-mapping>
+ 

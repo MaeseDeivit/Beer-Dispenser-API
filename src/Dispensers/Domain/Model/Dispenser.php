@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Dispensers\Domain\Model;
 
+use DateTime;
 use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Aggregate\AggregateRoot;
-use App\Dispensers\Domain\Model\ValueObject\DispenserStatus;
-use App\Dispensers\Domain\Model\ValueObject\DispenserCreatedOn;
-use App\Dispensers\Domain\Model\ValueObject\DispenserUpdatedOn;
-use App\Dispensers\Domain\Model\ValueObject\DispenserFlowVolume;
+use App\Dispensers\Domain\Model\DispenserStatus;
+use App\Dispensers\Domain\Model\DispenserCreatedOn;
+use App\Dispensers\Domain\Model\DispenserUpdatedOn;
+use App\Dispensers\Domain\Model\DispenserFlowVolume;
 
 class Dispenser extends AggregateRoot
 {
@@ -17,7 +18,7 @@ class Dispenser extends AggregateRoot
         private readonly DispenserId $id,
         private readonly DispenserFlowVolume $flowVolume,
         private readonly DispenserStatus $status,
-        private readonly DispenserCreatedOn $createdOn,
+        private readonly DateTime $createdOn,
         private readonly ?DispenserUpdatedOn $updatedOn
     ) {
     }
@@ -25,7 +26,7 @@ class Dispenser extends AggregateRoot
         DispenserId $id,
         DispenserFlowVolume $flowVolume
     ): self {
-        $dispenser = new self($id, $flowVolume, new DispenserStatus(DispenserStatus::CLOSE), new DispenserCreatedOn('now'), null);
+        $dispenser = new self($id, $flowVolume, new DispenserStatus(DispenserStatus::CLOSE), new DateTime('now'), null);
         // $dispenser->record(new DispenserCreatedDomainEvent($id, $flowVolume, $status, $createdOn));
 
         return $dispenser;
@@ -43,7 +44,7 @@ class Dispenser extends AggregateRoot
     {
         return $this->status;
     }
-    public function createdOn(): DispenserCreatedOn
+    public function createdOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -58,7 +59,7 @@ class Dispenser extends AggregateRoot
             "id" => $this->id->value(),
             "flowVolume" => $this->flowVolume->value(),
             "status" => $this->status->value(),
-            "createdOn" => $this->createdOn->value(),
+            "createdOn" => $this->createdOn,
             "updatedOn" => !is_null($this->updatedOn) ? $this->updatedOn->__toString() : null
         ];
     }

@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "symfony/maker-bundle": "^1.36",
+        "symfony/maker-bundle": "^1.48",
         "symfony/test-pack": "^1.0"
     },
     "scripts": {},

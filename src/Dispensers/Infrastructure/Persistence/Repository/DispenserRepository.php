@@ -17,8 +17,7 @@ class DispenserRepository extends DoctrineRepository implements DispenserReposit
         try {
             $this->persist($dispenser);
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage());
-            throw new DatabaseNotHealthyRepositoryException($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 }

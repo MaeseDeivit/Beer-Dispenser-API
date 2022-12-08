@@ -12,8 +12,9 @@ use App\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Shared\Infrastructure\Symfony\ErrorJsonResponse;
 use App\Shared\Infrastructure\Symfony\SuccessJsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-abstract class ApiController
+abstract class ApiController extends AbstractController
 {
 
     public function __construct(

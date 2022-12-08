@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Domain\ValueObject;
 
 use DateTimeZone;
-use DateTimeImmutable;
+use DateTime;
 use DateTimeInterface;
 
 abstract class DateTimeValueObject
@@ -15,13 +15,13 @@ abstract class DateTimeValueObject
     public function __construct(string $value)
     {
         try {
-            $this->value = new DateTimeImmutable($value, new DateTimeZone('UTC'));
+            $this->value = new DateTime($value, new DateTimeZone('UTC'));
         } catch (\Throwable $th) {
             throw new \InvalidArgumentException("<$value> is not a valid DateTime format", 9005);
         }
     }
 
-    public function value(): ?DateTimeImmutable
+    public function value(): ?DateTime
     {
         return $this->value;
     }

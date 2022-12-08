@@ -6,6 +6,7 @@ namespace App\Shared\Infrastructure\Persistence\Doctrine;
 
 use App\Shared\Domain\Utils;
 use Doctrine\DBAL\Types\StringType;
+use App\Shared\Domain\ValueObject\Uuid;
 use function Lambdish\Phunctional\last;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use App\Shared\Infrastructure\Doctrine\Dbal\DoctrineCustomType;
@@ -24,14 +25,14 @@ abstract class UuidType extends StringType implements DoctrineCustomType
         return self::customTypeName();
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         $className = $this->typeClassName();
 
         return new $className($value);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
         /** @var Uuid $value */
         return $value->value();

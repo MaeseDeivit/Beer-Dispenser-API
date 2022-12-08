@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Dispensers\Application\Create;
 
 use App\Dispensers\Domain\Model\Dispenser;
-use App\Dispensers\Domain\Model\ValueObject\DispenserFlowVolume;
+use App\Dispensers\Domain\Model\DispenserFlowVolume;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
 use App\Shared\Domain\Uuid\DispenserId;

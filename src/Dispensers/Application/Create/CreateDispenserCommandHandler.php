@@ -8,7 +8,7 @@ use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Bus\Command\CommandHandler;
 use App\Dispensers\Application\Create\DispenserCreator;
 use App\Dispensers\Application\Create\CreateDispenserCommand;
-use App\Dispensers\Domain\Model\ValueObject\DispenserFlowVolume;
+use App\Dispensers\Domain\Model\DispenserFlowVolume;
 
 final class CreateDispenserCommandHandler implements CommandHandler
 {

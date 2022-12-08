@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dispensers\Domain\Model\ValueObject;
+namespace App\Dispensers\Domain\Model;
 
 use InvalidArgumentException;
 use App\Shared\Domain\ValueObject\Enum;
