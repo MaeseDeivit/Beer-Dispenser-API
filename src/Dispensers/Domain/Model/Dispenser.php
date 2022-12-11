@@ -6,16 +6,26 @@ namespace App\Dispensers\Domain\Model;
 
 use DateTime;
 use App\Usages\Domain\Model\Usage;
+use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
 use Doctrine\Common\Collections\Collection;
 use App\Usages\Domain\Model\UsageTotalSpent;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 use App\Dispensers\Domain\Model\DispenserStatus;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Dispensers\Domain\Model\DispenserCreatedOn;
 use App\Dispensers\Domain\Model\DispenserUpdatedOn;
 use App\Dispensers\Domain\Model\DispenserFlowVolume;
 use App\Dispensers\Domain\Model\DispenserTotalAmount;
+use App\Dispensers\Domain\Events\DispenserClosedDomainEvent;
+use App\Dispensers\Domain\Events\DispenserOpenedDomainEvent;
 use App\Dispensers\Domain\Events\DispenserCreatedDomainEvent;
+use App\Dispensers\Domain\Exceptions\DispenserNotGotUsagesException;
+use App\Dispensers\Domain\Exceptions\DispenserAlreadyClosedException;
+use App\Dispensers\Domain\Exceptions\DispenserAlreadyOpenedException;
+use App\Dispensers\Domain\Exceptions\DispenserNotGotIncompleteUsageException;
+use App\Dispensers\Domain\Exceptions\DispenserHasManyIncompleteUsageException;
+use App\Dispensers\Domain\Exceptions\DispenserNotGotIncompleteUsagesException;
 
 class Dispenser extends AggregateRoot
 {
@@ -24,9 +34,9 @@ class Dispenser extends AggregateRoot
     public function __construct(
         private readonly DispenserId $id,
         private readonly DispenserFlowVolume $flowVolume,
-        private readonly DispenserStatus $status,
+        private DispenserStatus $status,
         private readonly DateTime $createdOn,
-        private readonly ?DispenserUpdatedOn $updatedOn,
+        private ?DateTime $updatedOn,
         private array $usages
     ) {
     }
@@ -43,6 +53,18 @@ class Dispenser extends AggregateRoot
         return $dispenser;
     }
 
+    public function changeStatusOpen(DateTime $now): void
+    {
+        $this->status = new DispenserStatus(DispenserStatus::OPEN);
+        $this->updatedOn = $now;
+        $this->record(new DispenserOpenedDomainEvent($this->id->value(), $now->format('Y-m-d H:i:s')));
+    }
+
+    public function changeStatusClose(DateTime $now): void
+    {
+        $this->status = new DispenserStatus(DispenserStatus::CLOSE);
+        $this->record(new DispenserClosedDomainEvent($this->id->value(), $this->updatedOn->format('Y-m-d H:i:s'), $now->format('Y-m-d H:i:s')));
+    }
     public function calculateSpending(): void
     {
         $now = new DateTime('now');
@@ -79,7 +101,7 @@ class Dispenser extends AggregateRoot
     {
         return $this->createdOn;
     }
-    public function updatedOn(): ?DispenserUpdatedOn
+    public function updatedOn(): ?DateTime
     {
         return $this->updatedOn;
     }
@@ -103,6 +125,26 @@ class Dispenser extends AggregateRoot
         return $this->totalAmount;
     }
 
+    public function validateOpenDispenser(): void
+    {
+        if (DispenserStatus::OPEN === $this->status->value()) throw new DispenserAlreadyOpenedException($this->id->value());
+    }
+    public function validateCloseDispenser(array $usages): UsageId
+    {
+        if (DispenserStatus::CLOSE === $this->status->value()) throw new DispenserAlreadyClosedException($this->id->value());
+        if ([] === $usages) throw new DispenserNotGotUsagesException($this->id->value());
+
+        $collection = new ArrayCollection($usages);
+        $incompleteUsages = $collection->filter(function (Usage $usage) {
+            return (is_null($usage->totalSpent()->value()) && is_null($usage->closedAt()));
+        });
+
+        if (0 == $incompleteUsages->count()) throw new DispenserNotGotIncompleteUsageException($this->id->value());
+        if (1 < $incompleteUsages->count())  throw new DispenserHasManyIncompleteUsageException($this->id->value());
+
+        return $incompleteUsages->first()->id();
+    }
+
     public function values(): array
     {
         return [
@@ -111,7 +153,7 @@ class Dispenser extends AggregateRoot
             "status" => $this->status->value(),
             "usages" => $this->usages,
             "createdOn" => $this->createdOn->format('Y-m-d H:i:s'),
-            "updatedOn" => !is_null($this->updatedOn) ? $this->updatedOn->__toString() : null
+            "updatedOn" => !is_null($this->updatedOn) ? $this->updatedOn->format('Y-m-d H:i:s') : null
         ];
     }
 }

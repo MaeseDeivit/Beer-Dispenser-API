@@ -6,7 +6,7 @@
 
     <entity name="App\Usages\Domain\Model\Usage" table="usages">
         <id name="id" type="usage_id" column="id" length="36" />
-        <id name="dispenserId" column="dispenser_id" type="dispenser_id" length="36"/>
+        <field name="dispenserId" type="dispenser_id" column="dispenser_id" length="36"/>
         <embedded name="totalSpent" class="App\Usages\Domain\Model\UsageTotalSpent" use-column-prefix="false" nullable="true"/>
         <field name="openedAt" type="datetime" column="opened_at"/>
         <field name="closedAt" type="datetime" column="closed_at" nullable="true"/>

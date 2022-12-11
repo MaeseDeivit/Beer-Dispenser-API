@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Symfony;
 
+use function Lambdish\Phunctional\each;
 use App\Shared\Domain\Bus\Query\Query;
 use App\Shared\Domain\Bus\Query\QueryBus;
 use App\Shared\Domain\Bus\Query\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\Validator\Constraints\Collection;
 use App\Shared\Infrastructure\Symfony\ErrorJsonResponse;
 use App\Shared\Infrastructure\Symfony\SuccessJsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Shared\Infrastructure\Symfony\ApiExceptionsHttpStatusCodeMapping;
 
 abstract class ApiController extends AbstractController
 {
@@ -22,7 +24,13 @@ abstract class ApiController extends AbstractController
     public function __construct(
         private readonly QueryBus $queryBus,
         private readonly CommandBus $commandBus,
+        ApiExceptionsHttpStatusCodeMapping $exceptionHandler
+
     ) {
+        each(
+            fn (int $httpCode, string $exceptionClass) => $exceptionHandler->register($exceptionClass, $httpCode),
+            $this->exceptions()
+        );
     }
 
     protected function ask(Query $query): ?Response
@@ -67,4 +75,5 @@ abstract class ApiController extends AbstractController
         }
         return $errors;
     }
+    abstract protected function exceptions(): array;
 }

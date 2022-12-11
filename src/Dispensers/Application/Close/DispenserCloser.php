@@ -2,27 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Dispensers\Application\Open;
+namespace App\Dispensers\Application\Close;
 
 use DateTime;
+use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Usages\Application\Create\UsageCreator;
+use App\Usages\Application\CompleteById\UsageCompleter;
 use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
 use App\Usages\Infrastructure\Persistence\Repository\UsageRepository;
+use App\Usages\Application\GetByDispenserId\UsagesByDispenserIdFinder;
 use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
-use App\Shared\Domain\Uuid\UsageId;
 
-final class DispenserOpener
+final class DispenserCloser
 {
-    private readonly UsageCreator $usageCreator;
+    private readonly UsageCompleter $usageCompleter;
+    private readonly UsagesByDispenserIdFinder $usagesByDispenserIdFinder;
 
     public function __construct(
         private readonly DispenserRepository $repository,
         private readonly UsageRepository $usageRepository,
         private readonly EventBus $bus
     ) {
-        $this->usageCreator = new UsageCreator($usageRepository, $bus);
+        $this->usageCompleter = new UsageCompleter($usageRepository, $bus);
+        $this->usagesByDispenserIdFinder = new UsagesByDispenserIdFinder($usageRepository);
     }
 
     public function __invoke(
@@ -33,11 +37,13 @@ final class DispenserOpener
         if (is_null($dispenser)) {
             throw new DispenserNotExistException($id->value());
         }
-        $dispenser->validateOpenDispenser();
+        $usages = $this->usagesByDispenserIdFinder->__invoke($id);
 
-        $this->usageCreator->__invoke(UsageId::random(), $id, $now);
+        $incompleteUsageId = $dispenser->validateCloseDispenser($usages);
 
-        $dispenser->changeStatusOpen($now);
+        $this->usageCompleter->__invoke($incompleteUsageId, $dispenser->flowVolume(), $now);
+        
+        $dispenser->changeStatusClose($now);
 
         $this->repository->save($dispenser);
 

@@ -29,6 +29,6 @@ class UsageRepository extends DoctrineRepository implements UsageRepositoryInter
 
     public function searchByDispenserId(DispenserId $dispenserId): ?array
     {
-        return $this->repository(Usage::class)->findBy(['dispenserId' => $dispenserId]);
+        return $this->repository(Usage::class)->findBy(['dispenserId' => $dispenserId], ['openedAt' => 'DESC']);
     }
 }

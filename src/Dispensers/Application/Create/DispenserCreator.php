@@ -14,8 +14,10 @@ use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
 final class DispenserCreator
 {
 
-    public function __construct(private readonly DispenserRepository $repository, private readonly EventBus $bus)
-    {
+    public function __construct(
+        private readonly DispenserRepository $repository,
+        private readonly EventBus $bus
+    ) {
     }
 
     public function __invoke(

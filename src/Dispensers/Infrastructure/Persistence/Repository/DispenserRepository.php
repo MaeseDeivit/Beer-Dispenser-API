@@ -18,6 +18,5 @@ class DispenserRepository extends DoctrineRepository implements DispenserReposit
     public function search(DispenserId $id): ?Dispenser
     {
         return $this->repository(Dispenser::class)->find($id);
-        exit;
     }
 }

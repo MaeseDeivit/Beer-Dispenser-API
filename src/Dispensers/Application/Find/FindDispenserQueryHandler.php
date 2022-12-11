@@ -25,7 +25,7 @@ final class FindDispenserQueryHandler implements QueryHandler
             $dispenser->totalAmount()->value(),
             $dispenser->status()->value(),
             $dispenser->createdOn()->format('Y-m-d H:i:s'),
-            !is_null($dispenser->updatedOn()) ? $dispenser->updatedOn()->__toString() : null,
+            !is_null($dispenser->updatedOn()) ? $dispenser->updatedOn()->format('Y-m-d H:i:s') : null,
             $dispenser->usages()
         );
     }

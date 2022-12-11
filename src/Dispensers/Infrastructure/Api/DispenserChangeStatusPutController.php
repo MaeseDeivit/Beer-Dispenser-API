@@ -12,6 +12,12 @@ use App\Shared\Infrastructure\Symfony\ApiController;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Collection;
 use App\Dispensers\Application\Open\OpenDispenserCommand;
+use App\Dispensers\Application\Close\CloseDispenserCommand;
+use App\Usages\Domain\Exceptions\UsageAlreadyExistsException;
+use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
+use App\Dispensers\Domain\Exceptions\DispenserAlreadyClosedException;
+use App\Dispensers\Domain\Exceptions\DispenserAlreadyExistsException;
+use App\Dispensers\Domain\Exceptions\DispenserAlreadyOpenedException;
 
 final class DispenserChangeStatusPutController extends ApiController
 {
@@ -24,15 +30,19 @@ final class DispenserChangeStatusPutController extends ApiController
         $status = (string) $request->request->get('status');
 
 
-        if ($status === DispenserStatus::OPEN) {
+        ($status === DispenserStatus::OPEN) ?
             $this->dispatch(
                 new OpenDispenserCommand(
                     $id
                 )
+            ) : $this->dispatch(
+                new CloseDispenserCommand(
+                    $id
+                )
             );
-        }
 
-        return $this->successResponse(Response::HTTP_CREATED);
+
+        return $this->successResponse(Response::HTTP_ACCEPTED);
     }
 
     private function validateRequest(Request $request): ?array
@@ -46,5 +56,16 @@ final class DispenserChangeStatusPutController extends ApiController
         $input = $request->request->all();
 
         return $this->requestValidation($input, $constraint);
+    }
+
+    protected function exceptions(): array
+    {
+        return [
+            DispenserNotExistException::class       => Response::HTTP_NOT_FOUND,
+            DispenserAlreadyOpenedException::class  => Response::HTTP_CONFLICT,
+            DispenserAlreadyClosedException::class  => Response::HTTP_CONFLICT,
+            UsageAlreadyExistsException::class      => Response::HTTP_CONFLICT,
+
+        ];
     }
 }

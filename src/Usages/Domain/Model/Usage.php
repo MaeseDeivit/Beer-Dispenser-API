@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Usages\Domain\Model;
 
-use App\Dispensers\Domain\Model\DispenserFlowVolume;
 use DateTime;
 use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
-use App\Usages\Domain\Model\UsageClosedAt;
-use App\Usages\Domain\Model\UsageOpenedAt;
 use App\Usages\Domain\Model\UsageTotalSpent;
 use App\Shared\Domain\Aggregate\AggregateRoot;
+use App\Dispensers\Domain\Model\DispenserFlowVolume;
 use App\Usages\Domain\Events\UsageOpenedDomainEvent;
+use App\Usages\Domain\Events\UsageCompletedDomainEvent;
+use App\Usages\Domain\Exceptions\UsageAlreadyClosedException;
 
 class Usage extends AggregateRoot
 {
@@ -28,15 +28,29 @@ class Usage extends AggregateRoot
     }
     public static function create(
         UsageId $id,
-        DispenserId $dispenserId
+        DispenserId $dispenserId,
+        DateTime $openedAt
     ): self {
-        $openedAt = new DateTime('now');
         $usage = new self($id, $dispenserId, new UsageTotalSpent(null), $openedAt, null);
         $usage->record(new UsageOpenedDomainEvent($id->value(), $dispenserId->value(), $openedAt->format('Y-m-d H:i:s')));
 
         return $usage;
     }
+    public function completedUsage(DispenserFlowVolume $dispenserFlowVolume, DateTime $now): void
+    {
+        $timeOpenSeconds = $now->diff($this->openedAt())->s;
+        $this->closedAt = $now;
 
+        $this->totalSpent = new UsageTotalSpent(($timeOpenSeconds * $dispenserFlowVolume->value()) * 12.25);
+
+        $this->record(new UsageCompletedDomainEvent(
+            $this->id->value(),
+            $this->dispenserId->value(),
+            $this->totalSpent->value(),
+            $this->openedAt->format('Y-m-d H:i:s'),
+            $this->closedAt->format('Y-m-d H:i:s')
+        ));
+    }
     public function id(): UsageId
     {
         return $this->id;
@@ -68,6 +82,11 @@ class Usage extends AggregateRoot
     public function closedAt(): ?DateTime
     {
         return $this->closedAt;
+    }
+
+    public function validateCompleteUsage(): void
+    {
+        if (!is_null($this->totalSpent->value()) || !is_null($this->closedAt)) throw new UsageAlreadyClosedException($this->id->value());
     }
     public function values(): array
     {

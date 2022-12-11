@@ -12,3 +12,4 @@ dispenser_by_id_get:
     path: /{id}/spending
     controller: App\Dispensers\Infrastructure\Api\DispenserByIdGetController
     methods: [Get]
+    

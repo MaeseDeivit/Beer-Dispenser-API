@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Dispensers\Application\Find;
 
-use DateTime;
 use App\Shared\Domain\Uuid\DispenserId;
-use App\Usages\Application\UsageResponse;
-use App\Dispensers\Application\DispenserResponse;
-use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
 use App\Dispensers\Domain\Model\Dispenser;
+use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
 use App\Usages\Infrastructure\Persistence\Repository\UsageRepository;
 use App\Usages\Application\GetByDispenserId\UsagesByDispenserIdFinder;
 use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;

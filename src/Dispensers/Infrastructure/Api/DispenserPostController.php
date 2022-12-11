@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Positive;
 use Symfony\Component\Validator\Constraints\Collection;
 use App\Dispensers\Application\Create\CreateDispenserCommand;
+use App\Dispensers\Domain\Exceptions\DispenserAlreadyExistsException;
 
 final class DispenserPostController extends ApiController
 {
@@ -46,5 +47,11 @@ final class DispenserPostController extends ApiController
         $input = $request->request->all();
 
         return $this->requestValidation($input, $constraint);
+    }
+    protected function exceptions(): array
+    {
+        return [
+            DispenserAlreadyExistsException::class => Response::HTTP_CONFLICT,
+        ];
     }
 }
