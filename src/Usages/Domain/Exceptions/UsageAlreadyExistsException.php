@@ -16,7 +16,7 @@ final class UsageAlreadyExistsException extends DomainError
 
     public function errorCode(): int
     {
-        return 400;
+        return 9400;
     }
 
     public function errorMessage(): string

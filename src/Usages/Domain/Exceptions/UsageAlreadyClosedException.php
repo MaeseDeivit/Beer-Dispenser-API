@@ -16,7 +16,7 @@ final class UsageAlreadyClosedException extends DomainError
 
     public function errorCode(): int
     {
-        return 402;
+        return 9402;
     }
 
     public function errorMessage(): string

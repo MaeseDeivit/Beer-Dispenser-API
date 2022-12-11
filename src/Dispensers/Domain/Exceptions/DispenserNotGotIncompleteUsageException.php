@@ -16,7 +16,7 @@ final class DispenserNotGotIncompleteUsageException extends DomainError
 
     public function errorCode(): int
     {
-        return 305;
+        return 9305;
     }
 
     public function errorMessage(): string

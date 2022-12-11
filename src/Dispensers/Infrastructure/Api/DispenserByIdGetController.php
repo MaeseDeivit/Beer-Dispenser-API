@@ -16,7 +16,7 @@ final class DispenserByIdGetController extends ApiController
     public function __invoke(string $id): Response
     {
         if (!Uuid::isValid($id)) {
-            return $this->errorResponse(Response::HTTP_UNPROCESSABLE_ENTITY, 9000, 'Not valid UUID format');
+            return $this->errorResponse(Response::HTTP_BAD_REQUEST, 9001, 'Not valid UUID format');
         }
 
         /** @var DispenserResponse $response */

@@ -8,13 +8,10 @@ use DateTime;
 use App\Usages\Domain\Model\Usage;
 use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
-use Doctrine\Common\Collections\Collection;
 use App\Usages\Domain\Model\UsageTotalSpent;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 use App\Dispensers\Domain\Model\DispenserStatus;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Dispensers\Domain\Model\DispenserCreatedOn;
-use App\Dispensers\Domain\Model\DispenserUpdatedOn;
 use App\Dispensers\Domain\Model\DispenserFlowVolume;
 use App\Dispensers\Domain\Model\DispenserTotalAmount;
 use App\Dispensers\Domain\Events\DispenserClosedDomainEvent;
@@ -25,7 +22,6 @@ use App\Dispensers\Domain\Exceptions\DispenserAlreadyClosedException;
 use App\Dispensers\Domain\Exceptions\DispenserAlreadyOpenedException;
 use App\Dispensers\Domain\Exceptions\DispenserNotGotIncompleteUsageException;
 use App\Dispensers\Domain\Exceptions\DispenserHasManyIncompleteUsageException;
-use App\Dispensers\Domain\Exceptions\DispenserNotGotIncompleteUsagesException;
 
 class Dispenser extends AggregateRoot
 {
@@ -63,6 +59,7 @@ class Dispenser extends AggregateRoot
     public function changeStatusClose(DateTime $now): void
     {
         $this->status = new DispenserStatus(DispenserStatus::CLOSE);
+        $this->updatedOn = $now;
         $this->record(new DispenserClosedDomainEvent($this->id->value(), $this->updatedOn->format('Y-m-d H:i:s'), $now->format('Y-m-d H:i:s')));
     }
     public function calculateSpending(): void

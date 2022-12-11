@@ -16,7 +16,7 @@ final class DispenserAlreadyOpenedException extends DomainError
 
     public function errorCode(): int
     {
-        return 302;
+        return 9302;
     }
 
     public function errorMessage(): string

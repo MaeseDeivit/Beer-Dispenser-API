@@ -16,7 +16,7 @@ final class DispenserHasManyIncompleteUsageException extends DomainError
 
     public function errorCode(): int
     {
-        return 304;
+        return 9304;
     }
 
     public function errorMessage(): string

@@ -16,7 +16,7 @@ final class DispenserNotExistException extends DomainError
 
     public function errorCode(): int
     {
-        return 301;
+        return 9301;
     }
 
     public function errorMessage(): string

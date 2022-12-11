@@ -16,7 +16,7 @@ final class UsageNotExistException extends DomainError
 
     public function errorCode(): int
     {
-        return 401;
+        return 9401;
     }
 
     public function errorMessage(): string

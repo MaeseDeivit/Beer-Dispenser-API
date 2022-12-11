@@ -16,7 +16,7 @@ final class DispenserAlreadyExistsException extends DomainError
 
     public function errorCode(): int
     {
-        return 300;
+        return 9300;
     }
 
     public function errorMessage(): string

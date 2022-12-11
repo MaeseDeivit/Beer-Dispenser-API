@@ -36,10 +36,10 @@ class Usage extends AggregateRoot
 
         return $usage;
     }
-    public function completedUsage(DispenserFlowVolume $dispenserFlowVolume, DateTime $now): void
+    public function completedUsage(DispenserFlowVolume $dispenserFlowVolume, DateTime $closedAt): void
     {
-        $timeOpenSeconds = $now->diff($this->openedAt())->s;
-        $this->closedAt = $now;
+        $timeOpenSeconds = $closedAt->diff($this->openedAt())->s;
+        $this->closedAt = $closedAt;
 
         $this->totalSpent = new UsageTotalSpent(($timeOpenSeconds * $dispenserFlowVolume->value()) * 12.25);
 

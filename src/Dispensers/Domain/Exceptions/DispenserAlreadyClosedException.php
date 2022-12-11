@@ -16,7 +16,7 @@ final class DispenserAlreadyClosedException extends DomainError
 
     public function errorCode(): int
     {
-        return 303;
+        return 9303;
     }
 
     public function errorMessage(): string
