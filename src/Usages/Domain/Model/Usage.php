@@ -4,42 +4,35 @@ declare(strict_types=1);
 
 namespace App\Usages\Domain\Model;
 
-use App\Shared\Domain\Aggregate\AggregateRoot;
+use App\Dispensers\Domain\Model\DispenserFlowVolume;
+use DateTime;
 use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
 use App\Usages\Domain\Model\UsageClosedAt;
 use App\Usages\Domain\Model\UsageOpenedAt;
 use App\Usages\Domain\Model\UsageTotalSpent;
+use App\Shared\Domain\Aggregate\AggregateRoot;
+use App\Usages\Domain\Events\UsageOpenedDomainEvent;
 
 class Usage extends AggregateRoot
 {
-    private $id;
-    private $dispenserId;
-    private $totalSpent;
-    private $openedAt;
-    private $closedAt;
+    private DispenserFlowVolume $flowVolume;
 
     public function __construct(
-        string $id,
-        string $dispenserId,
-        float  $totalSpent,
-        string $openedAt,
-        string $closedAt = null
+        private readonly UsageId $id,
+        private readonly DispenserId $dispenserId,
+        private UsageTotalSpent $totalSpent,
+        private readonly DateTime $openedAt,
+        private ?DateTime $closedAt = null
     ) {
-        $this->id               = new UsageId($id);
-        $this->dispenserId      = new DispenserId($dispenserId);
-        $this->totalSpent       = new UsageTotalSpent($totalSpent);
-        $this->openedAt         = new UsageOpenedAt($openedAt);
-        $this->closedAt         = !is_null($closedAt) ? new UsageClosedAt($closedAt) : null;
     }
     public static function create(
-        string $id,
-        string $dispenserId,
-        float  $totalSpent,
-        string $openedAt = 'now'
+        UsageId $id,
+        DispenserId $dispenserId
     ): self {
-        $usage = new self($id, $dispenserId, $totalSpent, $openedAt);
-        // $usage->record(new UsageCreatedDomainEvent($id, $dispenserId, $totalSpent, $openedAt));
+        $openedAt = new DateTime('now');
+        $usage = new self($id, $dispenserId, new UsageTotalSpent(null), $openedAt, null);
+        $usage->record(new UsageOpenedDomainEvent($id->value(), $dispenserId->value(), $openedAt->format('Y-m-d H:i:s')));
 
         return $usage;
     }
@@ -52,15 +45,27 @@ class Usage extends AggregateRoot
     {
         return $this->dispenserId;
     }
-    public function totalSpent(): UsageTotalSpent
+    public function setTotalSpent(UsageTotalSpent $totalSpent): void
+    {
+        $this->totalSpent = $totalSpent;
+    }
+    public function totalSpent(): ?UsageTotalSpent
     {
         return $this->totalSpent;
     }
-    public function openedAt(): UsageOpenedAt
+    public function setFlowVolume(DispenserFlowVolume $flowVolume): void
+    {
+        $this->flowVolume = $flowVolume;
+    }
+    public function flowVolume(): ?DispenserFlowVolume
+    {
+        return $this->flowVolume;
+    }
+    public function openedAt(): DateTime
     {
         return $this->openedAt;
     }
-    public function closedAt(): ?UsageClosedAt
+    public function closedAt(): ?DateTime
     {
         return $this->closedAt;
     }
@@ -69,9 +74,9 @@ class Usage extends AggregateRoot
         return [
             "id"          => $this->id->value(),
             "dispenserId" => $this->dispenserId->value(),
-            "totalSpent"  => $this->totalSpent->value(),
-            "openedAt"    => $this->openedAt->value(),
-            "closedAt"    => !is_null($this->closedAt) ? $this->closedAt->__toString() : null
+            "totalSpent"  => !is_null($this->totalSpent) ? $this->totalSpent->value() : null,
+            "openedAt"    => $this->openedAt->format('Y-m-d H:i:s'),
+            "closedAt"    => !is_null($this->closedAt) ? $this->closedAt->format('Y-m-d H:i:s') : null
         ];
     }
 }

@@ -6,7 +6,7 @@
 
     <entity name="App\Dispensers\Domain\Model\Dispenser" table="dispensers">
         <id name="id" type="dispenser_id" column="id" length="36" />
-
+        
         <embedded name="flowVolume" class="App\Dispensers\Domain\Model\DispenserFlowVolume" use-column-prefix="false" />
         <embedded name="status" class="App\Dispensers\Domain\Model\DispenserStatus" use-column-prefix="false" />
         <field name="createdOn" type="datetime" column="created_on"/>
