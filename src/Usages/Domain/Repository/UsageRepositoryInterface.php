@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Usages\Domain\Repository;
 
-use App\Dispensers\Domain\Model\Dispenser;
 use App\Shared\Domain\Uuid\DispenserId;
 use App\Usages\Domain\Model\Usage;
 use App\Shared\Domain\Uuid\UsageId;

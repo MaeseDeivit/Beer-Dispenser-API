@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class GetHealthHandlerTest extends WebTestCase
 {
     private KernelBrowser $client;
-
+    
     protected function setUp(): void
     {
         parent::setUp();

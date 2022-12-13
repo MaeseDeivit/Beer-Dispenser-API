@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Dispensers\Application\Open;
 
 use DateTime;
+use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Usages\Application\Create\UsageCreator;
+use App\Usages\Domain\Repository\UsageRepositoryInterface;
 use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
-use App\Usages\Infrastructure\Persistence\Repository\UsageRepository;
-use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
-use App\Shared\Domain\Uuid\UsageId;
+use App\Dispensers\Domain\Repository\DispenserRepositoryInterface;
 
 final class DispenserOpener
 {
     private readonly UsageCreator $usageCreator;
 
     public function __construct(
-        private readonly DispenserRepository $repository,
-        private readonly UsageRepository $usageRepository,
+        private readonly DispenserRepositoryInterface $repository,
+        private readonly UsageRepositoryInterface $usageRepository,
         private readonly EventBus $bus
     ) {
         $this->usageCreator = new UsageCreator($usageRepository, $bus);

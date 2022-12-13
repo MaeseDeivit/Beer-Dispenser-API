@@ -11,6 +11,11 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+        bind:
+            App\Dispensers\Domain\Repository\DispenserRepositoryInterface: '@App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository'
+            App\Usages\Domain\Repository\UsageRepositoryInterface: '@App\Usages\Infrastructure\Persistence\Repository\UsageRepository'
+            App\Health\Domain\Repository\HealthRepositoryInterface: '@App\Health\Infrastructure\Repository\HealthRepository'
+
     _instanceof:
         App\Shared\Domain\Bus\Command\CommandHandler:
             tags: ['internal.command_handler']
@@ -49,5 +54,3 @@ services:
     App\Shared\Infrastructure\Symfony\ApiExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onException }
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones

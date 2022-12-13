@@ -6,7 +6,6 @@ namespace App\Dispensers\Application\Close;
 
 use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Bus\Command\CommandHandler;
-use App\Dispensers\Application\Open\DispenserOpener;
 use App\Dispensers\Application\Close\DispenserCloser;
 use App\Dispensers\Application\Close\CloseDispenserCommand;
 

@@ -8,14 +8,14 @@ use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Dispensers\Domain\Model\Dispenser;
 use App\Dispensers\Domain\Model\DispenserFlowVolume;
+use App\Dispensers\Domain\Repository\DispenserRepositoryInterface;
 use App\Dispensers\Domain\Exceptions\DispenserAlreadyExistsException;
-use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
 
 final class DispenserCreator
 {
 
     public function __construct(
-        private readonly DispenserRepository $repository,
+        private readonly DispenserRepositoryInterface $repository,
         private readonly EventBus $bus
     ) {
     }

@@ -17,7 +17,7 @@ final class DispenserResponse implements Response
         private string $status,
         private string $createdOn,
         private ?string $updatedOn,
-        private array $usages
+        private ?array $usages
     ) {
     }
 
@@ -49,7 +49,7 @@ final class DispenserResponse implements Response
     {
         return $this->usages;
     }
-    public function usagesValues(): array
+    public function usagesValues(): ?array
     {
         $usagesValues = [];
 
@@ -69,13 +69,13 @@ final class DispenserResponse implements Response
     public function values(): array
     {
         return [
-            'id'                            => $this->id(),
+            'id'                             => $this->id(),
             'flow_volume'                    => $this->flowVolume(),
-            'amount'                        => $this->amount(),
-            'status'                        => $this->status(),
+            'amount'                         => $this->amount(),
+            'status'                         => $this->status(),
             'created_on'                     => $this->createdOn(),
             'updated_on'                     => $this->updatedOn(),
-            'usages'                        => $this->usagesValues()
+            'usages'                         => $this->usagesValues()
         ];
     }
 }

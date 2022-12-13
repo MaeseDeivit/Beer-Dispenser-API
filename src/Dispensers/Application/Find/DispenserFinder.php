@@ -6,18 +6,18 @@ namespace App\Dispensers\Application\Find;
 
 use App\Shared\Domain\Uuid\DispenserId;
 use App\Dispensers\Domain\Model\Dispenser;
+use App\Usages\Domain\Repository\UsageRepositoryInterface;
 use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
-use App\Usages\Infrastructure\Persistence\Repository\UsageRepository;
+use App\Dispensers\Domain\Repository\DispenserRepositoryInterface;
 use App\Usages\Application\GetByDispenserId\UsagesByDispenserIdFinder;
-use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
 
 final class DispenserFinder
 {
     private readonly UsagesByDispenserIdFinder $usagesFinder;
 
     public function __construct(
-        private readonly DispenserRepository $repository,
-        private readonly UsageRepository $usageRepository
+        private readonly DispenserRepositoryInterface $repository,
+        private readonly UsageRepositoryInterface $usageRepository
     ) {
         $this->usagesFinder = new UsagesByDispenserIdFinder($usageRepository);
     }
@@ -29,7 +29,7 @@ final class DispenserFinder
         if (is_null($dispenser)) {
             throw new DispenserNotExistException($id->value());
         }
-        $dispenser->setUsages($this->usagesFinder->__invoke($id));
+        $dispenser->setUsages($this->usagesFinder->__invoke($id)??[]);
         $dispenser->calculateSpending();
 
         return $dispenser;

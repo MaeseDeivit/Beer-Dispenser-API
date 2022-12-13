@@ -25,7 +25,7 @@ use App\Dispensers\Domain\Exceptions\DispenserHasManyIncompleteUsageException;
 
 class Dispenser extends AggregateRoot
 {
-    private DispenserTotalAmount $totalAmount;
+    private ?DispenserTotalAmount $totalAmount = null;
 
     public function __construct(
         private readonly DispenserId $id,
@@ -108,7 +108,7 @@ class Dispenser extends AggregateRoot
         $this->usages = $usages;
     }
 
-    public function usages(): array
+    public function usages(): ?array
     {
         return $this->usages;
     }

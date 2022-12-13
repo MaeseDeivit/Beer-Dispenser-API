@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Health\Application\Service;
 
-use App\Health\Application\Query\GetHealthQuery;
-use App\Health\Application\Service\GetHealthHandler;
-use App\Health\Domain\Repository\Exceptions\DatabaseNotHealthyRepositoryException;
-use App\Health\Domain\Repository\HealthRepositoryInterface;
 use PHPUnit\Framework\TestCase;
+use App\Health\Application\CheckHealth\HealthChecker;
+use App\Health\Application\CheckHealth\CheckHealthQuery;
+use App\Health\Domain\Repository\HealthRepositoryInterface;
+use App\Health\Domain\Exceptions\DatabaseNotHealthyRepositoryException;
 
 class GetHealthHandlerTest extends TestCase
 {
-    private GetHealthHandler $getHealthHandler;
+    private HealthChecker $checker;
 
     private HealthRepositoryInterface $healthRepository;
 
@@ -20,12 +20,12 @@ class GetHealthHandlerTest extends TestCase
     {
         parent::setUp();
         $this->healthRepository = $this->createMock(HealthRepositoryInterface::class);
-        $this->getHealthHandler = new GetHealthHandler($this->healthRepository);
+        $this->checker = new HealthChecker($this->healthRepository);
     }
 
     public function testReturnGetHealthResponseOk(): void
     {
-        $handlerResponse = ($this->getHealthHandler)(new GetHealthQuery());
+        $handlerResponse = $this->checker->__invoke(new CheckHealthQuery());
 
         $this->assertEquals(1, $handlerResponse->getStatus());
     }
@@ -35,7 +35,7 @@ class GetHealthHandlerTest extends TestCase
         $this->healthRepository
             ->method('health')
             ->will($this->throwException(new DatabaseNotHealthyRepositoryException()));
-        $handlerResponse = ($this->getHealthHandler)(new GetHealthQuery());
+        $handlerResponse = $this->checker->__invoke(new CheckHealthQuery());
 
         $this->assertEquals(-1, $handlerResponse->getStatus());
     }

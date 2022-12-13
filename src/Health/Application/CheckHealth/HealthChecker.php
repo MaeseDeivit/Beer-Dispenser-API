@@ -6,11 +6,11 @@ namespace App\Health\Application\CheckHealth;
 
 use App\Health\Application\GetHealthResponse;
 use App\Health\Application\CheckHealth\CheckHealthQuery;
-use App\Health\Infrastructure\Repository\HealthRepository;
+use App\Health\Domain\Repository\HealthRepositoryInterface;
 
 final class HealthChecker
 {
-    public function __construct(private readonly HealthRepository $repository)
+    public function __construct(private readonly HealthRepositoryInterface $repository)
     {
     }
 

@@ -10,10 +10,10 @@ use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Usages\Application\Create\UsageCreator;
 use App\Usages\Application\CompleteById\UsageCompleter;
+use App\Usages\Domain\Repository\UsageRepositoryInterface;
 use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
-use App\Usages\Infrastructure\Persistence\Repository\UsageRepository;
+use App\Dispensers\Domain\Repository\DispenserRepositoryInterface;
 use App\Usages\Application\GetByDispenserId\UsagesByDispenserIdFinder;
-use App\Dispensers\Infrastructure\Persistence\Repository\DispenserRepository;
 
 final class DispenserCloser
 {
@@ -21,8 +21,8 @@ final class DispenserCloser
     private readonly UsagesByDispenserIdFinder $usagesByDispenserIdFinder;
 
     public function __construct(
-        private readonly DispenserRepository $repository,
-        private readonly UsageRepository $usageRepository,
+        private readonly DispenserRepositoryInterface $repository,
+        private readonly UsageRepositoryInterface $usageRepository,
         private readonly EventBus $bus
     ) {
         $this->usageCompleter = new UsageCompleter($usageRepository, $bus);
