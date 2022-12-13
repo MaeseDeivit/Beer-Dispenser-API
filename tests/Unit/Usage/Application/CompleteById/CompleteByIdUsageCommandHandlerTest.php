@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Usage\Application\Create;
+namespace App\Tests\Unit\Usage\Application\CompleteById;
 
 use App\Shared\Domain\Bus\Event\EventBus;
-use App\Tests\Unit\Usage\Application\CompleteById\CompleteByIdUsageCommandMother;
 use App\Tests\Unit\Usage\Domain\UsageMother;
-use App\Usages\Application\Create\UsageCreator;
-use App\Usages\Application\Create\CreateUsageCommandHandler;
+use App\Usages\Application\CompleteById\UsageCompleter;
 use App\Tests\Unit\Usage\Application\UsageModuleUnitTestCase;
 use App\Usages\Application\Create\CompleteByIdUsageCommandHandler;
-use App\Tests\Unit\Usage\Application\Create\CreateUsageCommandMother;
-use App\Usages\Application\CompleteById\UsageCompleter;
+use App\Tests\Unit\Usage\Application\CompleteById\CompleteByIdUsageCommandMother;
 
 final class CompleteByIdUsageCommandHandlerTest extends UsageModuleUnitTestCase
 {

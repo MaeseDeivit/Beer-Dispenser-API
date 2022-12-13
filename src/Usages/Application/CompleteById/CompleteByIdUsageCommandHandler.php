@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Usages\Application\Create;
+namespace App\Usages\Application\CompleteById;
 
 use App\Dispensers\Domain\Model\DispenserFlowVolume;
 use DateTime;
 use App\Shared\Domain\Uuid\UsageId;
-use App\Shared\Domain\Uuid\DispenserId;
 use App\Shared\Domain\Bus\Command\CommandHandler;
 use App\Usages\Application\CompleteById\UsageCompleter;
 use App\Usages\Application\CompleteById\CompleteByIdUsageCommand;
 
-final class CreateUsageCommandHandler implements CommandHandler
+final class CompleteByIdUsageCommandHandler implements CommandHandler
 {
 
     public function __construct(private readonly UsageCompleter $completer)

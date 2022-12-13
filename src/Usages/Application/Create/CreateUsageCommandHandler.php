@@ -7,14 +7,14 @@ namespace App\Usages\Application\Create;
 use DateTime;
 use App\Shared\Domain\Uuid\UsageId;
 use App\Shared\Domain\Uuid\DispenserId;
+use App\Usages\Application\Create\UsageCreator;
 use App\Shared\Domain\Bus\Command\CommandHandler;
 use App\Usages\Application\Create\CreateUsageCommand;
-use App\Usages\Application\CompleteById\UsageCompleter;
 
-final class CompleteByIdUsageCommandHandler implements CommandHandler
+final class CreateUsageCommandHandler implements CommandHandler
 {
 
-    public function __construct(private readonly UsageCompleter $completer)
+    public function __construct(private readonly UsageCreator $creator)
     {
     }
 

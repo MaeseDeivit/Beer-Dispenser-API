@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dispensers\Infrastructure\Api;
 
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Dispensers\Domain\Model\DispenserStatus;
@@ -16,13 +17,16 @@ use App\Dispensers\Application\Close\CloseDispenserCommand;
 use App\Usages\Domain\Exceptions\UsageAlreadyExistsException;
 use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
 use App\Dispensers\Domain\Exceptions\DispenserAlreadyClosedException;
-use App\Dispensers\Domain\Exceptions\DispenserAlreadyExistsException;
 use App\Dispensers\Domain\Exceptions\DispenserAlreadyOpenedException;
 
 final class DispenserChangeStatusPutController extends ApiController
 {
     public function __invoke(string $id, Request $request): Response
     {
+        if (!Uuid::isValid($id)) {
+            return $this->errorResponse(Response::HTTP_BAD_REQUEST, 9001, 'Not valid UUID format');
+        }
+
         $validationErrors = $this->validateRequest($request);
 
         if (!is_null($validationErrors)) return $this->errorResponse(Response::HTTP_BAD_REQUEST, 9001, $validationErrors);;
