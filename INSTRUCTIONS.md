@@ -18,6 +18,27 @@ Check the [Getting Started](#getting-started) for full details.
 * [Docker](https://www.docker.com/)
 * [Make](https://www.gnu.org/software/make/manual/make.html)
 
+## Pattern Development
+
+* [Domain Driven Design](https://semaphoreci.com/blog/domain-driven-design-microservices)
+* [Hexagonal Architecture](https://medium.com/ssense-tech/hexagonal-architecture-there-are-always-two-sides-to-every-story-bc0780ed7d9c)
+* [CQRS](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)
+* [Event Sourcing](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)
+
+## Documentation
+
+* [API - Postman]()
+* [Flow diagrams]()
+* [Class diagram]()
+* [E/R diagram]()
+
+## External libraries
+
+* [lambdish/phunctional](https://github.com/Lambdish/phunctional)
+* [ramsey/uuid](https://github.com/ramsey/uuid)
+* [fakerphp/faker](https://fakerphp.github.io/)
+* [mockery/mockery](https://github.com/mockery/mockery)
+
 ## Getting Started
 
 Within the [Makefile](Makefile) you can handle the entire flow to get everything up & running:
@@ -25,11 +46,17 @@ Within the [Makefile](Makefile) you can handle the entire flow to get everything
 1. Install `make` on your computer, if you do not already have it.
 2. Build the Docker image: `make build`
 3. Start the application: `make up`
+4. Create and load migrations: `make migrations`
+
+or
+
+1. Install `make` on your computer, if you do not already have it.
+2. Build the Docker image: `make install`
 
 As you could see on the [Makefile](Makefile) script, you could just avoid those steps and just execute `make up`, as
 **build** is dependant of it.
 
-Go to `http://localhost:8080/api/health` to see that everything is up & running!
+Go to `http://localhost:8080/api/health` or `http://localhost:8080` to see that everything is up & running!
 
 ## Overview
 
@@ -87,7 +114,7 @@ layer. In this folder you will find
 
 ### Domain
 
-Any of your domain Entities, or Services, that models your business logic. These classes should be completely isolated
+Any of your domain Entities,ValueObjects, or Services, that models your business logic. These classes should be completely isolated
 of any external dependency or framework, but interact with them. This layer should follow the Dependency Inversion
 principle.
 

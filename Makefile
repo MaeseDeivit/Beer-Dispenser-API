@@ -30,3 +30,18 @@ down:
 
 .test/build:
 	docker compose -f docker-compose.test.yml build
+
+install: 
+	docker compose build
+	docker compose up -d
+	docker compose exec skeleton-php-symfony-fpm composer install
+	docker compose exec skeleton-php-symfony-fpm php bin/console --no-interaction doctrine:migrations:diff
+	docker compose exec skeleton-php-symfony-fpm php bin/console --no-interaction doctrine:migrations:migrate
+
+migrations:
+	docker compose exec skeleton-php-symfony-fpm php bin/console --no-interaction doctrine:migrations:diff
+	docker compose exec skeleton-php-symfony-fpm php bin/console --no-interaction doctrine:migrations:migrate
+
+
+destroy:
+	docker compose down -v --rmi all --remove-orphans
