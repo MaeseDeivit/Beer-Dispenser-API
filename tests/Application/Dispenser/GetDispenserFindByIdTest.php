@@ -9,7 +9,7 @@ use App\Tests\Unit\Dispenser\Domain\DispenserFlowVolumeMother;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class PostDispenserCreateTest extends WebTestCase
+class GetDispenserFindByIdTest extends WebTestCase
 {
     private KernelBrowser $client;
 
@@ -20,13 +20,17 @@ class PostDispenserCreateTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function test_create_new_dispenser(): void
+    public function test_create_new_dispenser_and_find_it_with_spending(): void
     {
+        $dispenserId = DispenserId::random()->value();
         $dispenserRequestBody = [
-            'dispenserId'      => DispenserId::random()->value(),
+            'dispenserId'      => $dispenserId,
             'flowVolume'       => DispenserFlowVolumeMother::create()->value()
         ];
         $this->client->request('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertResponseIsSuccessful();
+
+        $this->client->request('Get', '/api/dispensers/' . $dispenserId . '/spending');
         $this->assertResponseIsSuccessful();
     }
 }
