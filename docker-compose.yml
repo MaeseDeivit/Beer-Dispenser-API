@@ -10,16 +10,10 @@ services:
       - skeleton-php-symfony-postgres
     environment:
       APP_ENV: dev
-    expose:
-      - '9003'
     volumes:
       - rviewer-php_socket:/var/run/php
       - ./:/srv/app:rw
       - ./docker/php/conf.d/symfony.dev.ini:/usr/local/etc/php/conf.d/symfony.ini
-        # Xdebug Config for PHPStorm, check your local path to make sure it exists
-      - ./.docker/php/xdebug:/tmp/xdebug
-    extra_hosts:
-      - "beer.dispenser.test:${DOCKER_HOST_IP}"
     networks:
       rviewer-skeleton-php-symfony-net:
 
@@ -46,8 +40,6 @@ services:
       - .env
     volumes:
       - rviewer-skeleton-php-symfony-postgres-volume:/var/lib/postgresql/data:rw
-    ports:
-      - "${HOST_POSTGRES_CONTAINER_PORT}:${POSTGRES_PORT}"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
       interval: 10s
