@@ -16,14 +16,16 @@ use App\Dispensers\Application\Close\CloseDispenserCommandHandler;
 use App\Dispensers\Application\Create\CreateDispenserCommandHandler;
 use App\Dispensers\Domain\Exceptions\DispenserNotGotUsagesException;
 use App\Dispensers\Domain\Exceptions\DispenserAlreadyClosedException;
+use App\Shared\Domain\Uuid\UsageId;
 use App\Tests\Unit\Dispenser\Application\Open\OpenDispenserCommandMother;
 use App\Tests\Unit\Dispenser\Application\Close\CloseDispenserCommandMother;
 use App\Tests\Unit\Dispenser\Application\Create\CreateDispenserCommandMother;
+use App\Tests\Unit\Usage\Domain\UsageMother;
+use DateTime;
 
 final class CloseDispenserCommandHandlerTest extends DispenserModuleUnitTestCase
 {
     private CloseDispenserCommandHandler|null $handler;
-    private CreateDispenserCommandHandler|null $createHandler;
     private OpenDispenserCommandHandler|null $openHandler;
 
     protected function setUp(): void
@@ -36,11 +38,6 @@ final class CloseDispenserCommandHandlerTest extends DispenserModuleUnitTestCase
             $this->createMock(EventBus::class)
         ));
 
-        $this->createHandler = new CreateDispenserCommandHandler(new DispenserCreator(
-            $this->repository(),
-            $this->createMock(EventBus::class)
-        ));
-
         $this->openHandler = new OpenDispenserCommandHandler(new DispenserOpener(
             $this->repository(),
             $this->repositoryUsage(),
@@ -49,47 +46,27 @@ final class CloseDispenserCommandHandlerTest extends DispenserModuleUnitTestCase
     }
 
     /** @test */
-    public function it_should_close_a_valid_dispenser(): void
-    {
-
-        $dispenser = DispenserMother::create();
-        $createCommand   = CreateDispenserCommandMother::create($dispenser->id(), $dispenser->flowVolume());
-        $this->createHandler->__invoke($createCommand);
-        $command   = CloseDispenserCommandMother::create($dispenser->id());
-
-        $this->dispatch($command, $this->handler);
-    }
-
-    /** @test */
-    public function it_should_return_a_exception_dispenser_not_exist(): void
+    public function it_should_return_an_exception_dispenser_not_exist(): void
     {
         $this->expectException(DispenserNotExistException::class);
 
         $dispenser = DispenserMother::create();
-        $createCommand   = CreateDispenserCommandMother::create($dispenser->id(), $dispenser->flowVolume());
-        $this->createHandler->__invoke($createCommand);
-
-        $dispenser = DispenserMother::create();
         $command   = CloseDispenserCommandMother::create($dispenser->id());
 
-        $this->shouldSave($dispenser);
-        $this->handler->__invoke($command);
+        $this->dispatch($command, $this->handler);
     }
-
     /** @test */
-    public function it_should_return_a_exception_dispenser_has_not_usages(): void
+    public function it_should_return_an_exception_dispenser_has_not_usages(): void
     {
-        $this->expectException(DispenserAlreadyClosedException::class);
+        $this->expectException(DispenserNotGotUsagesException::class);
 
         $dispenser = DispenserMother::create();
-        $createCommand   = CreateDispenserCommandMother::create($dispenser->id(), $dispenser->flowVolume());
-        $this->createHandler->__invoke($createCommand);
-
         $command   = CloseDispenserCommandMother::create($dispenser->id());
 
-        $this->shouldSearch($dispenser);
-        $this->shouldSave($dispenser);
+        $dispenser->changeStatusOpen(new DateTime('now'));
 
-        $this->handler->__invoke($command);
+        $this->shouldFind($dispenser->id(), $dispenser);
+
+        $this->dispatch($command, $this->handler);
     }
 }

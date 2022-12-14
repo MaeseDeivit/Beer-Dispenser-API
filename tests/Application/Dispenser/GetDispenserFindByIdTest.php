@@ -27,10 +27,20 @@ class GetDispenserFindByIdTest extends WebTestCase
             'dispenserId'      => $dispenserId,
             'flowVolume'       => DispenserFlowVolumeMother::create()->value()
         ];
-        $this->client->request('POST', '/api/dispensers', $dispenserRequestBody);
-        $this->assertResponseIsSuccessful();
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
 
-        $this->client->request('Get', '/api/dispensers/' . $dispenserId . '/spending');
-        $this->assertResponseIsSuccessful();
+        $this->client->request('GET', '/api/dispensers/' . $dispenserId . '/spending');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function test_dispenser_not_exist_exception_not_found(): void
+    {
+        $dispenserId = DispenserId::random()->value();
+
+        $this->client->request('GET', '/api/dispensers/' . $dispenserId . '/spending');
+       
+        $this->assertEquals(500, $this->client->getResponse()->getStatusCode());
+        $this->assertStringContainsString('9999',$this->client->getResponse()->getContent());
     }
 }

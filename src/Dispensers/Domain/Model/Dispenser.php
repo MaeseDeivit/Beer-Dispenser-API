@@ -128,6 +128,7 @@ class Dispenser extends AggregateRoot
     }
     public function validateCloseDispenser(array $usages): UsageId
     {
+        
         if (DispenserStatus::CLOSE === $this->status->value()) throw new DispenserAlreadyClosedException($this->id->value());
         if ([] === $usages) throw new DispenserNotGotUsagesException($this->id->value());
 

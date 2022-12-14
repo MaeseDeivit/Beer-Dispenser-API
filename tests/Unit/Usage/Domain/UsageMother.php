@@ -33,4 +33,20 @@ final class UsageMother
         $usage->setFlowVolume($dispenserFlowVolume ?? DispenserFlowVolumeMother::create());
         return $usage;
     }
+
+    public static function createIncompleteUsage(
+        ?UsageId $id = null,
+        ?DispenserId $dispenserId = null,
+        ?DispenserFlowVolume $dispenserFlowVolume = null,
+        ?DateTime $openedAt = null,
+    ): Usage {
+        $now = $openedAt ?? new DateTime('now');
+        $usage = Usage::create(
+            $id ?? UsageId::random(),
+            $dispenserId ?? DispenserId::random(),
+            $openedAt ?? $now,
+        );
+        $usage->setFlowVolume($dispenserFlowVolume ?? DispenserFlowVolumeMother::create());
+        return $usage;
+    }
 }

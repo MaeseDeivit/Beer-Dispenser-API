@@ -27,11 +27,9 @@ final class FindByDispenserIdUsagesQueryHandlerTest extends UsageModuleUnitTestC
     /** @test */
     public function it_should_find_all_usages_of_a_dispenser(): void
     {
-
         $dispenserId  = DispenserId::random();
-        $query      = new FindByDispenserIdUsagesQuery($dispenserId->value());
+        $query        = new FindByDispenserIdUsagesQuery($dispenserId->value());
 
-        $this->shouldSearchByDispenserId($dispenserId);
         $this->assertEquals([], $this->handler->__invoke($query));
     }
 }

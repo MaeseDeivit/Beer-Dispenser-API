@@ -37,8 +37,8 @@ final class DispenserCloser
         if (is_null($dispenser)) {
             throw new DispenserNotExistException($id->value());
         }
-        $usages = $this->usagesByDispenserIdFinder->__invoke($id);
 
+        $usages = $this->usagesByDispenserIdFinder->__invoke($id);
         $incompleteUsageId = $dispenser->validateCloseDispenser($usages);
 
         $this->usageCompleter->__invoke($incompleteUsageId, $dispenser->flowVolume(), $now);

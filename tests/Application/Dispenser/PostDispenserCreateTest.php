@@ -26,7 +26,27 @@ class PostDispenserCreateTest extends WebTestCase
             'dispenserId'      => DispenserId::random()->value(),
             'flowVolume'       => DispenserFlowVolumeMother::create()->value()
         ];
-        $this->client->request('POST', '/api/dispensers', $dispenserRequestBody);
-        $this->assertResponseIsSuccessful();
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
+    }
+    public function test_create_new_dispenser_exception_invalid_format_bad_request(): void
+    {
+        $dispenserRequestBody = [
+            'dispenserId'      => DispenserId::random()->value() . DispenserId::random()->value(),
+            'flowVolume'       => null
+        ];
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function test_create_new_dispenser_exception_already_exist_conflict(): void
+    {
+        $dispenserRequestBody = [
+            'dispenserId'      => DispenserId::random()->value(),
+            'flowVolume'       => DispenserFlowVolumeMother::create()->value()
+        ];
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(409, $this->client->getResponse()->getStatusCode());
     }
 }

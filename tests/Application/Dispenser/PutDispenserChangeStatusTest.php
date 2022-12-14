@@ -28,14 +28,14 @@ class PutDispenserChangeStatusTest extends WebTestCase
             'dispenserId'      => $dispenserId,
             'flowVolume'       => DispenserFlowVolumeMother::create()->value()
         ];
-        $this->client->request('POST', '/api/dispensers', $dispenserRequestBody);
-        $this->assertResponseIsSuccessful();
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
 
         $dispenserChangeStatusOpenRequestBody = [
             'status'      => DispenserStatus::OPEN
         ];
-        $this->client->request('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusOpenRequestBody);
-        $this->assertResponseIsSuccessful();
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusOpenRequestBody);
+        $this->assertEquals(202, $this->client->getResponse()->getStatusCode());
     }
 
     public function test_create_new_dispenser_and_change_status_to_open_and_close(): void
@@ -45,19 +45,73 @@ class PutDispenserChangeStatusTest extends WebTestCase
             'dispenserId'      => $dispenserId,
             'flowVolume'       => DispenserFlowVolumeMother::create()->value()
         ];
-        $this->client->request('POST', '/api/dispensers', $dispenserRequestBody);
-        $this->assertResponseIsSuccessful();
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
 
         $dispenserChangeStatusOpenRequestBody = [
             'status'      => DispenserStatus::OPEN
         ];
-        $this->client->request('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusOpenRequestBody);
-        $this->assertResponseIsSuccessful();
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusOpenRequestBody);
+        $this->assertEquals(202, $this->client->getResponse()->getStatusCode());
 
-        $dispenserChangeStatusOpenRequestBody = [
+        $dispenserChangeStatusCloseRequestBody = [
             'status'      => DispenserStatus::CLOSE
         ];
-        $this->client->request('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusOpenRequestBody);
-        $this->assertResponseIsSuccessful();
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusCloseRequestBody);
+        $this->assertEquals(202, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function test_exception_open_a_dispenser_not_exist_not_found(): void
+    {
+        $dispenserChangeStatusOpenRequestBody = [
+            'status'      => DispenserStatus::OPEN
+        ];
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . DispenserId::random()->value() . '/status', $dispenserChangeStatusOpenRequestBody);
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function test_exception_close_a_dispenser_not_exist_not_found(): void
+    {
+        $dispenserChangeStatusCloseRequestBody = [
+            'status'      => DispenserStatus::CLOSE
+        ];
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . DispenserId::random()->value() . '/status', $dispenserChangeStatusCloseRequestBody);
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
+    public function test_exception_dispenser_already_opened_conflict(): void
+    {
+        $dispenserId = DispenserId::random()->value();
+        $dispenserRequestBody = [
+            'dispenserId'      => $dispenserId,
+            'flowVolume'       => DispenserFlowVolumeMother::create()->value()
+        ];
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
+
+        $dispenserChangeStatusOpenRequestBody = [
+            'status'      => DispenserStatus::OPEN
+        ];
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusOpenRequestBody);
+        $this->assertEquals(202, $this->client->getResponse()->getStatusCode());
+
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusOpenRequestBody);
+        $this->assertEquals(409, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function test_exception_dispenser_already_closed_conflict(): void
+    {
+        $dispenserId = DispenserId::random()->value();
+        $dispenserRequestBody = [
+            'dispenserId'      => $dispenserId,
+            'flowVolume'       => DispenserFlowVolumeMother::create()->value()
+        ];
+        $this->client->jsonRequest('POST', '/api/dispensers', $dispenserRequestBody);
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
+
+        $dispenserChangeStatusCloseRequestBody = [
+            'status'      => DispenserStatus::CLOSE
+        ];
+        $this->client->jsonRequest('PUT', '/api/dispensers/' . $dispenserId . '/status', $dispenserChangeStatusCloseRequestBody);
+        $this->assertEquals(409, $this->client->getResponse()->getStatusCode());
     }
 }

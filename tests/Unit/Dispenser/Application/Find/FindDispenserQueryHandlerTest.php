@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Dispenser\Application\Find;
 
+use InvalidArgumentException;
+use App\Shared\Domain\Uuid\DispenserId;
 use App\Dispensers\Application\Find\DispenserFinder;
 use App\Tests\Unit\Dispenser\Domain\DispenserMother;
 use App\Dispensers\Application\Find\FindDispenserQuery;
 use App\Tests\Unit\Dispenser\DispenserModuleUnitTestCase;
 use App\Dispensers\Application\Find\FindDispenserQueryHandler;
 use App\Dispensers\Domain\Exceptions\DispenserNotExistException;
-use App\Shared\Domain\Uuid\DispenserId;
 use App\Tests\Unit\Dispenser\Application\Find\DispenserResponseMother;
 
 final class FindDispenserQueryHandlerTest extends DispenserModuleUnitTestCase
@@ -52,5 +53,12 @@ final class FindDispenserQueryHandlerTest extends DispenserModuleUnitTestCase
     {
         $query    = new FindDispenserQuery(DispenserId::random()->value());
         $this->assertAskThrowsException(DispenserNotExistException::class, $query, $this->handler);
+    }
+
+    /** @test */
+    public function it_should_throw_an_exception_when_dispenser_id_not_valid_format_uuid()
+    {
+        $query    = new FindDispenserQuery(DispenserId::random()->value() . DispenserId::random()->value());
+        $this->assertAskThrowsException(InvalidArgumentException::class, $query, $this->handler);
     }
 }

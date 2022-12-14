@@ -28,7 +28,7 @@ final class CreateUsageCommandHandlerTest extends UsageModuleUnitTestCase
     /** @test */
     public function it_should_create_a_valid_usage(): void
     {
-        $usage = UsageMother::create();
+        $usage     = UsageMother::create();
         $command   = CreateUsageCommandMother::create($usage->id(), $usage->dispenserId(), $usage->openedAt());
 
         $this->shouldSave($usage);

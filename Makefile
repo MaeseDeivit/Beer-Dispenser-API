@@ -7,13 +7,16 @@ test: test/unit test/application
 	docker compose -f docker-compose.test.yml down
 
 test/coverage: .test/build deps
-	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test bin/phpunit --coverage-text --coverage-clover=coverage.xml --order-by=random
+	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test php bin/phpunit --coverage-text --coverage-clover=coverage.xml --order-by=random
 
 test/unit: .test/build
-	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test bin/phpunit --coverage-text --order-by=random --testsuite Unit
+	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test php bin/phpunit --coverage-text --order-by=random --testsuite Unit
 
 test/application: .test/build
-	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test bin/phpunit --coverage-text --order-by=random --testsuite Application
+	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test php bin/phpunit --coverage-text --order-by=random --testsuite Application
+
+test/all: .test/build
+	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test php bin/phpunit tests/
 
 deps: build
 	docker compose run --rm skeleton-php-symfony-fpm sh -c "\
@@ -41,7 +44,6 @@ install:
 migrations:
 	docker compose exec skeleton-php-symfony-fpm php bin/console --no-interaction doctrine:migrations:diff
 	docker compose exec skeleton-php-symfony-fpm php bin/console --no-interaction doctrine:migrations:migrate
-
 
 destroy:
 	docker compose down -v --rmi all --remove-orphans

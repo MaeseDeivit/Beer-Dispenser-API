@@ -9,7 +9,6 @@ use App\Tests\Unit\Dispenser\Domain\DispenserMother;
 use App\Dispensers\Application\Create\DispenserCreator;
 use App\Tests\Unit\Dispenser\DispenserModuleUnitTestCase;
 use App\Dispensers\Application\Create\CreateDispenserCommandHandler;
-use App\Dispensers\Domain\Exceptions\DispenserAlreadyExistsException;
 use App\Tests\Unit\Dispenser\Application\Create\CreateDispenserCommandMother;
 
 final class CreateDispenserCommandHandlerTest extends DispenserModuleUnitTestCase
