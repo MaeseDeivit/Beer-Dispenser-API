@@ -16,7 +16,7 @@ services:
       - ./docker/php/conf.d/symfony.dev.ini:/usr/local/etc/php/conf.d/symfony.ini
     networks:
       rviewer-skeleton-php-symfony-net:
-
+  
   caddy:
     image: caddy:2-alpine
     depends_on:
