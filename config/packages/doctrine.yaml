@@ -1,7 +1,24 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        types:
+            dispenser_id: App\Dispensers\Infrastructure\Persistence\Doctrine\DispenserIdType
+            usage_id: App\Usages\Infrastructure\Persistence\Doctrine\UsageIdType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        mappings:
+            Dispenser:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Dispensers/Infrastructure/Persistence/Doctrine'
+                prefix: 'App\Dispensers\Domain\Model'
+                alias: Dispenser
+
+            Usage:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Usages/Infrastructure/Persistence/Doctrine'
+                prefix: 'App\Usages\Domain\Model'
+                alias: Usage

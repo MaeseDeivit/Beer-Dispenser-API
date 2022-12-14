@@ -2,28 +2,25 @@
 
 namespace App\Health\Infrastructure\Api;
 
-use App\Health\Application\Model\GetHealthResponse;
-use App\Health\Application\Query\GetHealthQuery;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Health\Application\GetHealthResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\HandleTrait;
-use Symfony\Component\Messenger\MessageBusInterface;
+use App\Shared\Infrastructure\Symfony\ApiController;
+use App\Health\Application\CheckHealth\CheckHealthQuery;
+use App\Health\Domain\Repository\Exceptions\DatabaseNotHealthyRepositoryException;
 
-class HealthController extends AbstractController
+class HealthController extends ApiController
 {
-    use HandleTrait;
-
-    public function __construct(MessageBusInterface $messageBus)
+    public function __invoke(): Response
     {
-        $this->messageBus = $messageBus;
+        /** @var GetHealthResponse $response */
+        $response = $this->ask(new CheckHealthQuery());
+        return ($response->getStatus() > 0) ? $this->successResponse(Response::HTTP_OK, $response->getMessage()) : $this->errorResponse(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-
-    public function __invoke(): JsonResponse
+    protected function exceptions(): array
     {
-        /** @var GetHealthResponse $healthResponse */
-        $healthResponse = $this->handle(new GetHealthQuery());
-
-        return $this->json($healthResponse, $healthResponse->getStatus() >0 ? Response::HTTP_OK : Response::HTTP_INTERNAL_SERVER_ERROR);
+        return [
+            DatabaseNotHealthyRepositoryException::class => Response::HTTP_INTERNAL_SERVER_ERROR,
+            HealthRepositoryException::class => Response::HTTP_INTERNAL_SERVER_ERROR,
+        ];
     }
 }

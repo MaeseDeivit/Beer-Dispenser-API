@@ -1,0 +1,15 @@
+dispensers_post:
+    path: /
+    controller: App\Dispensers\Infrastructure\Api\DispenserPostController
+    methods: [Post]
+
+dispenser_status_put:
+    path: /{id}/status
+    controller: App\Dispensers\Infrastructure\Api\DispenserChangeStatusPutController
+    methods: [Put]
+
+dispenser_by_id_get:
+    path: /{id}/spending
+    controller: App\Dispensers\Infrastructure\Api\DispenserByIdGetController
+    methods: [Get]
+    

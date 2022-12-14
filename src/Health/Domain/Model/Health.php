@@ -6,10 +6,7 @@ namespace App\Health\Domain\Model;
 
 class Health
 {
-    private int $status;
-
-    public function __construct(int $status)
+    public function __construct(private int $status)
     {
-        $this->status = $status;
     }
 }

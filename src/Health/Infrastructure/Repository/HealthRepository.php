@@ -5,34 +5,21 @@ declare(strict_types=1);
 namespace App\Health\Infrastructure\Repository;
 
 use App\Health\Domain\Model\Health;
-use App\Health\Domain\Repository\Exceptions\DatabaseNotHealthyRepositoryException;
 use App\Health\Domain\Repository\HealthRepositoryInterface;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
-use Psr\Log\LoggerInterface;
+use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
+use App\Health\Domain\Exceptions\DatabaseNotHealthyRepositoryException;
 
-class HealthRepository implements HealthRepositoryInterface
+class HealthRepository extends DoctrineRepository implements HealthRepositoryInterface
 {
-    private Connection $connection;
-    private LoggerInterface $logger;
-
-    public function __construct(Connection $connection, LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-        $this->connection = $connection;
-    }
-
-    /**
-     * @throws DatabaseNotHealthyRepositoryException
-     */
     public function health(): Health
     {
+        return new Health(200);
         try {
             $stmt = $this->connection->prepare("SELECT 1+1");
             return new Health($stmt->executeQuery()->fetchOne());
-        }catch (Exception $e) {
-            $this->logger->error($e->getMessage());
-            throw new DatabaseNotHealthyRepositoryException($e->getMessage());
+        } catch (\Throwable $th) {
+            $this->logger->error($th->getMessage());
+            throw new DatabaseNotHealthyRepositoryException($th->getMessage());
         }
     }
 }
