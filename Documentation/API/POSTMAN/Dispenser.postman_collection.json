@@ -1,0 +1,1310 @@
+{
+	"info": {
+		"_postman_id": "a34e4fa8-e187-49ba-a5b8-c52f33522a73",
+		"name": "Dispenser",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24773503"
+	},
+	"item": [
+		{
+			"name": "Create Dispenser POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dispenserId\": \"839447D1-7704-11ED-9187-E6A9DA2F9904\",\r\n    \"flowVolume\": 0.064\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-api}}/dispensers",
+					"host": [
+						"{{url-api}}"
+					],
+					"path": [
+						"dispensers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SUCCESS",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dispenserId\": \"839447D1-7704-11ED-9187-E6A9DA2F9905\",\r\n    \"flowVolume\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 08 Dec 2022 15:14:14 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "201 Created"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"result\": null\n}"
+				},
+				{
+					"name": "ERROR 9001",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flowVolume\": -5.1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 08 Dec 2022 18:22:34 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "400 Bad Request"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "148"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"result\": {\n        \"errorCode\": 9001,\n        \"errorMessage\": {\n            \"dispenserId\": \"This field is missing.\",\n            \"flowVolume\": \"This value should be positive.\"\n        }\n    }\n}"
+				},
+				{
+					"name": "ERROR 9300",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dispenserId\": \"839447D1-7704-11ED-9187-E6A9DA2F9906\",\r\n    \"flowVolume\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 08 Dec 2022 17:23:55 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "409 Conflict"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorCode\": 9300,\n    \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9906> already exists\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Dispenser find by id GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/spending",
+					"host": [
+						"{{url-api}}"
+					],
+					"path": [
+						"dispensers",
+						"839447D1-7704-11ED-9187-E6A9DA2F9904",
+						"spending"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SUCCESS",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/spending",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"spending"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 11:19:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "409"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"result\": {\n        \"id\": \"839447D1-7704-11ED-9187-E6A9DA2F9904\",\n        \"flow_volume\": 0.064,\n        \"amount\": 19.6,\n        \"status\": \"close\",\n        \"created_on\": \"2022-12-09 17:40:59\",\n        \"updated_on\": null,\n        \"usages\": [\n            {\n                \"flow_volume\": 0.064,\n                \"total_spent\": 11.76,\n                \"opened_at\": \"2022-12-09 17:40:00\",\n                \"closed_at\": \"2022-12-09 17:41:15\"\n            },\n            {\n                \"flow_volume\": 0.064,\n                \"total_spent\": 7.84,\n                \"opened_at\": \"2022-12-09 17:40:00\",\n                \"closed_at\": \"2022-12-09 17:41:10\"\n            }\n        ]\n    }\n}"
+				},
+				{
+					"name": "ERROR 9001",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D/spending",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D",
+								"spending"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 18:12:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "422 Unprocessable Content"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "85"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"result\": {\n        \"errorCode\": 9001,\n        \"errorMessage\": \"Not valid UUID format\"\n    }\n}"
+				},
+				{
+					"name": "ERROR 9301",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9909/spending",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9909",
+								"spending"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 18:11:15 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "500 Internal Server Error"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "225"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"result\": {\n        \"errorCode\": 9301,\n        \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9909> does not exist\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Dispenser Change status Open By Id PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"open\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+					"host": [
+						"{{url-api}}"
+					],
+					"path": [
+						"dispensers",
+						"839447D1-7704-11ED-9187-E6A9DA2F9904",
+						"status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SUCCESS",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"open\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9905/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9905",
+								"status"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:06:58 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "202 Accepted"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"result\": null\n}"
+				},
+				{
+					"name": "ERROR 9001",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"another-status\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:57:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "400 Bad Request"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "120"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"result\": {\n        \"errorCode\": 9001,\n        \"errorMessage\": {\n            \"status\": \"The value you selected is not a valid choice.\"\n        }\n    }\n}"
+				},
+				{
+					"name": "ERROR 9001 DispenserId",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"open\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1",
+								"status"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 13 Dec 2022 17:47:15 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "400 Bad Request"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "85"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"result\": {\n        \"errorCode\": 9001,\n        \"errorMessage\": \"Not valid UUID format\"\n    }\n}"
+				},
+				{
+					"name": "ERROR 9301",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"open\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:07:16 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "404 Not Found"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorCode\": 9301,\n    \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9904> does not exist\"\n}"
+				},
+				{
+					"name": "ERROR 9302",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"open\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:52:35 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "409 Conflict"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "115"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorCode\": 9302,\n    \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9904> is already opened\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Dispenser Change status Close By Id PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"close\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+					"host": [
+						"{{url-api}}"
+					],
+					"path": [
+						"dispensers",
+						"839447D1-7704-11ED-9187-E6A9DA2F9904",
+						"status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SUCCESS",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"close\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9905/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9905",
+								"status"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:06:58 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "202 Accepted"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"result\": null\n}"
+				},
+				{
+					"name": "ERROR 9001",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"another-status\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:57:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "400 Bad Request"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "120"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"result\": {\n        \"errorCode\": 9001,\n        \"errorMessage\": {\n            \"status\": \"The value you selected is not a valid choice.\"\n        }\n    }\n}"
+				},
+				{
+					"name": "ERROR 9001 DispenserId",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"close\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1",
+								"status"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 13 Dec 2022 17:47:15 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "400 Bad Request"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "85"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"result\": {\n        \"errorCode\": 9001,\n        \"errorMessage\": \"Not valid UUID format\"\n    }\n}"
+				},
+				{
+					"name": "ERROR 9301",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"close\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:07:16 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "404 Not Found"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorCode\": 9301,\n    \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9904> does not exist\"\n}"
+				},
+				{
+					"name": "ERROR 9303",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"close\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 12:58:22 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "409 Conflict"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "115"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorCode\": 9303,\n    \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9904> is already closed\"\n}"
+				},
+				{
+					"name": "ERROR 9304",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"close\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 14:25:42 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "409 Conflict"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "131"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorCode\": 9304,\n    \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9904> has got to many incomplete usages\"\n}"
+				},
+				{
+					"name": "ERROR 9305",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"close\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/dispensers/839447D1-7704-11ED-9187-E6A9DA2F9904/status",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"dispensers",
+								"839447D1-7704-11ED-9187-E6A9DA2F9904",
+								"status"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Dec 2022 14:24:27 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Caddy"
+						},
+						{
+							"key": "Status",
+							"value": "409 Conflict"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.1.13"
+						},
+						{
+							"key": "X-Robots-Tag",
+							"value": "noindex"
+						},
+						{
+							"key": "Content-Length",
+							"value": "122"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorCode\": 9305,\n    \"errorMessage\": \"The dispenser <839447D1-7704-11ED-9187-E6A9DA2F9904> has not incomplete usage\"\n}"
+				}
+			]
+		}
+	]
+}

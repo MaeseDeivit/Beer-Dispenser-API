@@ -15,8 +15,8 @@ test/unit: .test/build
 test/application: .test/build
 	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test php bin/phpunit --coverage-text --order-by=random --testsuite Application
 
-test/all: .test/build
-	docker compose -f docker-compose.test.yml run skeleton-php-symfony-fpm-test php bin/phpunit tests/
+test/all:
+	docker compose exec skeleton-php-symfony-fpm php bin/phpunit tests/
 
 deps: build
 	docker compose run --rm skeleton-php-symfony-fpm sh -c "\

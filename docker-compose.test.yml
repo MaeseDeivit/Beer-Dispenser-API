@@ -28,6 +28,8 @@ services:
       - POSTGRES_DB=postgres_rv_database-test
       - POSTGRES_USER=rv_user
       - POSTGRES_PASSWORD=rv_password
+    ports:
+      - "${HOST_POSTGRES_CONTAINER_PORT}:${POSTGRES_PORT}"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
       interval: 10s
